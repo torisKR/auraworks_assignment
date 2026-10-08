@@ -1,15 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 import { formatWon } from "@/lib/catalog";
 import type { Textbook } from "@/types/database";
 
-type TextbookCardProps = { textbook: Textbook; onSelect: (textbook: Textbook) => void };
+type TextbookCardProps = { textbook: Textbook };
 
-export function TextbookCard({ textbook, onSelect }: TextbookCardProps) {
+export function TextbookCard({ textbook }: TextbookCardProps) {
   return (
     <article className="textbook-card">
-      <button
+      <Link
         className="product-link"
-        onClick={() => onSelect(textbook)}
+        href={`/textbooks/${textbook.id}`}
         aria-label={`${textbook.title} ${textbook.subject} ${textbook.category === "single" ? "단품" : "패스"} 상세 보기`}
       >
         <div className="product-image">
@@ -32,7 +33,7 @@ export function TextbookCard({ textbook, onSelect }: TextbookCardProps) {
           )}
           <span>{formatWon(textbook.price)}</span>
         </span>
-      </button>
+      </Link>
     </article>
   );
 }

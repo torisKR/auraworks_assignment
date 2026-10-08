@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { SiteShell } from "@/components/layout/site-shell";
 
 export const metadata: Metadata = {
   title: "HIDDEN KICE | 히든카이스 교재 스토어",
@@ -12,7 +13,9 @@ export const viewport: Viewport = { themeColor: "#8274e8" };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body>
+        <SiteShell>{children}</SiteShell>
+      </body>
     </html>
   );
 }

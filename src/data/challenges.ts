@@ -1,0 +1,32 @@
+export const challenges = [
+  {
+    id: "seven-days",
+    title: "매일 30분, 7일의 변화",
+    category: "학습 습관",
+    description: "매일 같은 시간에 교재를 펼치고 작은 성취를 쌓아보세요.",
+    duration: "7일",
+    members: 128,
+    accent: "violet",
+    tasks: ["오늘의 학습 목표 정하기", "30분 집중 학습하기", "틀린 문제 한 번 더 풀기"],
+  },
+  {
+    id: "review",
+    title: "오답을 내 실력으로",
+    category: "오답 복습",
+    description: "틀린 이유를 이해하는 5일. 다음 시험의 자신감이 됩니다.",
+    duration: "5일",
+    members: 86,
+    accent: "mint",
+    tasks: ["오답 한 문항 선정하기", "틀린 이유 한 줄 정리하기", "해설 없이 다시 풀기"],
+  },
+  {
+    id: "mock",
+    title: "주말 실전 모의고사",
+    category: "실전 대비",
+    description: "시간을 재고 풀어보는 한 회. 나의 실전 감각을 점검하세요.",
+    duration: "2일",
+    members: 204,
+    accent: "peach",
+    tasks: ["시험 시간과 환경 준비하기", "모의고사 한 회 풀기", "시간 배분 점검하기"],
+  },
+] as const;

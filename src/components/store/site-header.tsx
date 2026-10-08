@@ -1,13 +1,23 @@
-import { Icon } from "@/components/store/icon";
-import Link from "next/link";
+"use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Icon } from "@/components/store/icon";
+
+const navigation = [
+  { href: "/store", label: "스토어" },
+  { href: "/ai-omr", label: "AI OMR WORK" },
+  { href: "/challenges", label: "챌린지" },
+  { href: "/about", label: "히든카이스 소개" },
+];
 type SiteHeaderProps = {
   cartCount: number;
   onOpenCart: () => void;
-  onOpenInfo: (title: string) => void;
+  onOpenNotifications: () => void;
 };
 
-export function SiteHeader({ cartCount, onOpenCart, onOpenInfo }: SiteHeaderProps) {
+export function SiteHeader({ cartCount, onOpenCart, onOpenNotifications }: SiteHeaderProps) {
+  const pathname = usePathname();
   return (
     <header className="site-header">
       <div className="header-inner">
@@ -15,12 +25,20 @@ export function SiteHeader({ cartCount, onOpenCart, onOpenInfo }: SiteHeaderProp
           HIDDEN KICE
         </Link>
         <nav className="main-nav" aria-label="주 메뉴">
-          <a href="#catalog" aria-current="page">
-            스토어
-          </a>
-          <button onClick={() => onOpenInfo("AI OMR WORK")}>AI OMR WORK</button>
-          <button onClick={() => onOpenInfo("챌린지")}>챌린지</button>
-          <button onClick={() => onOpenInfo("히든카이스 소개")}>히든카이스 소개</button>
+          {navigation.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              aria-current={
+                pathname === href ||
+                (href === "/store" && (pathname === "/" || pathname.startsWith("/textbooks/")))
+                  ? "page"
+                  : undefined
+              }
+            >
+              {label}
+            </Link>
+          ))}
         </nav>
         <div className="header-actions">
           <button
@@ -31,17 +49,13 @@ export function SiteHeader({ cartCount, onOpenCart, onOpenInfo }: SiteHeaderProp
             <Icon name="cart" />
             {cartCount > 0 && <span className="notification-badge">{cartCount}</span>}
           </button>
-          <button className="icon-button" aria-label="알림" onClick={() => onOpenInfo("알림")}>
+          <button className="icon-button" aria-label="알림" onClick={onOpenNotifications}>
             <Icon name="bell" />
             <span className="notification-badge">1</span>
           </button>
-          <button
-            className="icon-button"
-            aria-label="마이페이지"
-            onClick={() => onOpenInfo("마이페이지")}
-          >
+          <Link className="icon-button" href="/login" aria-label="로그인 및 마이페이지">
             <Icon name="user" />
-          </button>
+          </Link>
         </div>
       </div>
     </header>

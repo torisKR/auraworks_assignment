@@ -1,14 +1,12 @@
-type SiteFooterProps = { onOpenInfo: (title: string) => void };
+import Link from "next/link";
 
-export function SiteFooter({ onOpenInfo }: SiteFooterProps) {
+export function SiteFooter() {
   return (
     <footer className="site-footer">
       <nav aria-label="회사 및 정책 안내" className="footer-links">
-        {["회사소개", "이용약관", "개인정보처리방침"].map((label) => (
-          <button key={label} onClick={() => onOpenInfo(label)}>
-            {label}
-          </button>
-        ))}
+        <Link href="/company">회사소개</Link>
+        <Link href="/terms">이용약관</Link>
+        <Link href="/privacy">개인정보처리방침</Link>
       </nav>
       <p>
         (주)히든카이스 | 대표: 안영호 | 사업자등록번호: 735-87-02522{" "}
