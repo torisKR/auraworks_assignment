@@ -33,3 +33,17 @@ export async function fetchTextbook(id: string, signal: AbortSignal): Promise<Te
   if (error) throw new Error("교재 상세 정보를 불러오지 못했습니다.");
   return data;
 }
+
+export async function fetchCartTextbooks(
+  ids: readonly string[],
+  signal: AbortSignal,
+): Promise<Textbook[]> {
+  if (ids.length === 0) return [];
+  const { data, error } = await getSupabaseClient()
+    .from("textbooks")
+    .select(columns)
+    .in("id", [...ids])
+    .abortSignal(signal);
+  if (error) throw new Error("장바구니의 교재 정보를 확인하지 못했습니다. 다시 시도해 주세요.");
+  return data ?? [];
+}
