@@ -21,8 +21,13 @@ export function TextbookCard({ textbook }: TextbookCardProps) {
             height={320}
             sizes="(max-width: 600px) 46vw, (max-width: 1000px) 28vw, 250px"
           />
+          <span className="product-detail-hint" aria-hidden="true">
+            상세 보기 <span>↗</span>
+          </span>
         </div>
-        <span className="product-category">{textbook.category === "single" ? "단품" : "패스"}</span>
+        <span className="product-category">
+          {textbook.category === "single" ? "단품" : "패스"} · {textbook.subject}
+        </span>
         <h3 className="product-title">{textbook.title}</h3>
         {textbook.original_price !== null && (
           <del className="original-price">{formatWon(textbook.original_price)}</del>

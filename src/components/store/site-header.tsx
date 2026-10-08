@@ -53,7 +53,12 @@ export function SiteHeader({ cartCount, onOpenCart, onOpenNotifications }: SiteH
             <Icon name="bell" />
             <span className="notification-badge">1</span>
           </button>
-          <Link className="icon-button" href="/login" aria-label="로그인 및 마이페이지">
+          <Link
+            className="icon-button"
+            href="/login"
+            aria-label="로그인 및 마이페이지"
+            aria-current={pathname === "/login" ? "page" : undefined}
+          >
             <Icon name="user" />
           </Link>
         </div>
