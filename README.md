@@ -8,14 +8,14 @@
 
 ## 기술 스택
 
-| 영역 | 기술 | 선택 이유 |
-| --- | --- | --- |
-| 프레임워크 | Next.js 16.3.4 · App Router | 페이지 구성, 이미지 최적화, Vercel 배포 |
-| UI | React 19.2.4 · TypeScript 5.9.3 | 컴포넌트 재사용과 데이터·상태 계약의 명확성 |
-| 스타일 | CSS · Pretendard | 제공 화면의 간격·색상·반응형 구현 |
-| 데이터 | Supabase JS 2.110.1 · PostgreSQL | 브라우저 조회와 RLS 접근 제어 |
-| 품질 관리 | ESLint · TypeScript · Node.js 테스트 | 정적 검사와 핵심 로직 검증 |
-| 배포 | GitHub Actions · Vercel | main 변경 시 검사와 자동 배포 |
+| 영역       | 기술                                 | 선택 이유                                   |
+| ---------- | ------------------------------------ | ------------------------------------------- |
+| 프레임워크 | Next.js 16.3.4 · App Router          | 페이지 구성, 이미지 최적화, Vercel 배포     |
+| UI         | React 19.2.4 · TypeScript 5.9.3      | 컴포넌트 재사용과 데이터·상태 계약의 명확성 |
+| 스타일     | CSS · Pretendard                     | 제공 화면의 간격·색상·반응형 구현           |
+| 데이터     | Supabase JS 2.110.1 · PostgreSQL     | 브라우저 조회와 RLS 접근 제어               |
+| 품질 관리  | ESLint · TypeScript · Node.js 테스트 | 정적 검사와 핵심 로직 검증                  |
+| 배포       | GitHub Actions · Vercel              | main 변경 시 검사와 자동 배포               |
 
 의존성 버전과 lockfile을 저장합니다. pnpm 11에서 설치 스크립트가 필요한 `unrs-resolver@1.12.2`는 `pnpm-workspace.yaml`에 해당 버전만 허용했습니다.
 
@@ -23,15 +23,17 @@
 
 - 원본 배너·단품·패스 에셋을 활용한 헤더, 배너, 4열 교재 목록, 푸터
 - 데스크톱 4열, 태블릿 3열, 모바일 2열 반응형 레이아웃
-- 제목·과목 검색과 전체 / 패스 / 단품 필터
+- 400ms 스로틀을 적용한 Supabase 제목·과목 검색과 전체 / 패스 / 단품 필터
 - Supabase에서 CSR로 교재 12개 조회
 - 로딩 스켈레톤, 빈 목록, 검색 결과 없음, 조회 실패 및 재시도
-- 교재 상세 모달과 세션 내 임시 장바구니 담기·삭제·합계
+- 교재 상세 페이지와 페이지 이동 중 유지되는 임시 장바구니 담기·삭제·합계
+- 5개 슬라이드 캐러셀, 데모 로그인·로그아웃, OMR 채점 체험, 챌린지 참여 체험
+- 스토어·브랜드 소개·회사소개·약관·개인정보 안내의 독립 페이지
 - 키보드 포커스, 검색 레이블, 필터 상태, `dialog`, reduced-motion 지원
 
-AI OMR, 챌린지, 로그인, 약관 전문, 주문·결제는 안내만 제공하는 데모 범위입니다. 장바구니는 새로고침하면 초기화됩니다. 실제 판매 기능으로 오해하지 않도록 상세 안내를 표시합니다.
+로그인은 공용 데모 계정만 확인하며 실제 Supabase Auth를 사용하지 않습니다. OMR은 5문항 답안 비교, 챌린지는 메모리 상태 참여 체험입니다. 상세 목차·후기·소개·정책 페이지는 예시 데이터입니다. 실제 주문·결제·AI 분석은 제공하지 않습니다. 로그인과 장바구니는 새로고침하면 초기화됩니다.
 
-배너의 문구와 `1/5` 표시는 제공 이미지에 포함되어 있습니다. 현재 배너는 정적인 이미지이며 자동 슬라이드 기능은 없습니다. 모바일에서는 배너 비율에 맞춰 일부 이미지 영역이 잘립니다. 원본 에셋의 화면에 보이는 영역을 우선 구현했습니다.
+첫 캐러셀 슬라이드는 원본 배너를 사용합니다. 추가 4개는 제공 교재 이미지와 HTML 문구로 구성했습니다. 이전·다음·선택 점·키보드 이동과 재생/정지를 제공합니다. 기본 정지 상태이며 자동 재생을 시작하면 6초 간격으로 이동합니다. 모바일에서는 원본 배너의 일부 영역이 잘립니다. 페이지별 경로와 체험 방법은 [추가 페이지 안내](docs/implemented-pages.md)에 정리했습니다.
 
 ## 실행
 
@@ -69,12 +71,12 @@ flowchart LR
   Query --> Client[타입이 있는 Supabase 클라이언트]
   Client --> RLS[PostgreSQL SELECT와 RLS]
   RLS --> Hook
-  Hook --> Cards[검색과 필터를 적용한 교재 카드]
+  Hook --> Cards[조회 결과 교재 카드]
 ```
 
 페이지와 화면 틀은 Next.js가 만들고, 교재는 브라우저의 `useEffect`에서 조회합니다. 조회 함수는 필요한 컬럼만 선택하고 `display_order`로 정렬합니다. 훅은 로딩·성공·실패 상태, 재시도와 언마운트 시 요청 취소를 담당합니다. 화면 컴포넌트는 SQL이나 클라이언트 초기화를 알 필요가 없습니다.
 
-교재 12개를 한 번 조회한 뒤 검색·필터는 순수 함수로 처리합니다. 과제 규모에서는 불필요한 요청을 줄이고 즉시 결과를 표시할 수 있습니다. 데이터가 커지면 조회 계층에 서버 필터와 페이지네이션을 추가할 수 있습니다.
+초기 진입 시 교재 12개를 조회합니다. 검색 입력은 400ms 스로틀을 거쳐 제목·과목의 서버 검색 조건에 반영하고 종류 필터도 Supabase에서 적용합니다. 이전 요청은 취소하며 마지막 입력값이 누락되지 않도록 처리했습니다. 더 큰 데이터에서는 조회 계층에 페이지네이션을 추가할 수 있습니다.
 
 ## 데이터베이스 재현
 
@@ -88,14 +90,14 @@ flowchart LR
 
 현재 과제용 원격 프로젝트에 스키마와 seed를 적용했습니다. SQL Editor에서 `anon` 역할로 12개 조회와 쓰기 권한 차단을 확인했습니다. 배포 페이지의 DevTools Network에서도 `/rest/v1/textbooks` 요청의 HTTP 200과 교재 12개 표시를 확인했습니다.
 
-| 데이터 | 역할 |
-| --- | --- |
-| `id` | UUID 식별자 |
-| `title`, `subject`, `description` | 교재 표시와 검색 |
-| `category` | `single` / `pass` 필터 |
-| `image_path` | 제공 이미지 경로 |
-| `price`, `original_price`, `discount_percent` | 판매가, 정가, 배지 표시 |
-| `display_order` | 화면의 안정적인 표시 순서 |
+| 데이터                                        | 역할                      |
+| --------------------------------------------- | ------------------------- |
+| `id`                                          | UUID 식별자               |
+| `title`, `subject`, `description`             | 교재 표시와 검색          |
+| `category`                                    | `single` / `pass` 필터    |
+| `image_path`                                  | 제공 이미지 경로          |
+| `price`, `original_price`, `discount_percent` | 판매가, 정가, 배지 표시   |
+| `display_order`                               | 화면의 안정적인 표시 순서 |
 
 테이블에 RLS를 활성화하고 `anon`과 `authenticated`에 SELECT만 허용했습니다. 공개 키는 브라우저에 포함되지만 테이블 쓰기 권한은 없습니다. secret/service-role 키는 사용하지 않습니다. 새 사용자별 데이터나 주문 테이블을 추가하면 별도의 인증과 정책이 필요합니다.
 
@@ -105,14 +107,19 @@ flowchart LR
 
 ```text
 src/
-  app/                  # 라우팅, 메타데이터, 전역 스타일
-  components/store/     # UI와 스토어 인터랙션
-  hooks/use-textbooks.ts # 비동기 상태, 요청 취소, 재시도
+  app/                  # 스토어·상세·메뉴 경로, 메타데이터, 전역 스타일
+  components/layout/    # 공통 화면과 데모 로그인·장바구니 상태
+  components/store/     # 캐러셀·목록·카드·장바구니 UI
+  features/             # 상세·데모 인증·OMR·챌린지
+  data/                 # 슬라이드·소개·목차·후기 등의 예시 데이터
+  hooks/                # 조회 상태·요청 취소·재시도·검색 스로틀
   lib/
     supabase.ts         # typed browser client
     textbooks.ts        # SELECT 쿼리
-    catalog.ts          # 순수 검색/필터/가격 함수
-    catalog.test.ts     # 핵심 로직 테스트
+    catalog.ts          # 가격 표시와 카테고리 타입
+    catalog-query.ts    # 서버 검색 조건
+    throttle.ts         # 마지막 입력을 보장하는 스로틀
+    *.test.ts           # 가격·검색·스로틀 검증
   types/database.ts     # 교재·데이터베이스 계약
 public/images/          # 원본 제공 이미지
 supabase/               # migration, seed, 권한 검증 SQL
@@ -124,7 +131,7 @@ docs/                   # 설계·면접·배포 설명
 
 향후 구현 순서와 완료 기준은 [기능 확장 계획](docs/future-extension.md), 기능별 폴더 전환과 파일 이동은 [폴더 구조 확장 설계](docs/folder-evolution.md)에 정리했습니다. 전체 문서는 [문서 안내](docs/README.md)에서 확인할 수 있습니다.
 
-UI, 비동기 상태, 데이터 접근, 데이터 타입을 역할별로 분리했습니다. 과제 규모에 맞춰 별도 전역 상태 라이브러리 없이 검색·필터·모달·장바구니를 `Storefront`에서 관리합니다. 기능이 늘어나면 인증·주문 등 기능 단위로 폴더를 분리하고, 주문 가격 검증과 결제 처리는 서버로 옮기는 방향으로 확장할 수 있습니다.
+UI, 비동기 상태, 데이터 접근, 데이터 타입을 역할별로 분리했습니다. 여러 경로가 생겨 공통 로그인·장바구니 상태는 `SiteShell`의 Context로 옮기고 검색·필터는 스토어에 유지했습니다. 상세·데모 인증·OMR·챌린지는 `features/`에 모았습니다. 실제 인증·주문을 추가할 때는 서버 검증과 사용자별 RLS를 별도로 설계합니다.
 
 ## Vercel 배포
 
@@ -140,19 +147,19 @@ pnpm build             # Next.js production build
 pnpm verify:supabase   # 실제 익명 REST 조회 및 seed 검증
 ```
 
-GitHub Actions에서도 lint, typecheck, unit tests, build를 실행합니다. 빌드 통과는 Supabase 연결 성공이나 UI 검증을 대신하지 않습니다. 테스트는 공백·대소문자·한글 정규화, 카테고리와 검색의 교집합, 빈 결과, 입력 불변성, 원화 표시를 다룹니다.
+GitHub Actions에서도 lint, typecheck, unit tests, build를 실행합니다. 빌드 통과는 Supabase 연결 성공이나 UI 검증을 대신하지 않습니다. 테스트는 원화 표시, 검색 정규화, PostgREST 검색 조건, 특수문자 처리, 스로틀의 첫·마지막 입력과 예약 취소를 다룹니다.
 
-2026-10-08 검증 결과:
+2026-10-08 최초 배포 검증 결과(기존 `2095b1b` 버전):
 
-| 검증 | 확인 결과 |
-| --- | --- |
-| 정적 검사와 테스트 | ESLint, TypeScript, 단위 테스트 6개 통과 |
-| 원격 CI | [Quality checks 실행 #2](https://github.com/torisKR/auraworks_assignment/actions/runs/37721779107) Success |
-| Vercel | `2095b1b` 커밋의 Production 배포 Ready |
-| Supabase | 익명 조회 12개, RLS 활성화, INSERT/UPDATE/DELETE 권한 없음 |
-| 브라우저 데이터 조회 | Supabase REST fetch HTTP 200, 교재 12개 표시 |
-| 화면과 인터랙션 | 데스크톱 4열, 390px 모바일 2열, 단품 3개·패스 9개 필터, 검색 교집합과 빈 결과 |
-| 모달과 장바구니 | 상세 표시, 담기, 합계, 삭제, Escape 닫기 확인 |
+| 검증                 | 확인 결과                                                                                                  |
+| -------------------- | ---------------------------------------------------------------------------------------------------------- |
+| 정적 검사와 테스트   | ESLint, TypeScript, 단위 테스트 6개 통과                                                                   |
+| 원격 CI              | [Quality checks 실행 #2](https://github.com/torisKR/auraworks_assignment/actions/runs/37721779107) Success |
+| Vercel               | `2095b1b` 커밋의 Production 배포 Ready                                                                     |
+| Supabase             | 익명 조회 12개, RLS 활성화, INSERT/UPDATE/DELETE 권한 없음                                                 |
+| 브라우저 데이터 조회 | Supabase REST fetch HTTP 200, 교재 12개 표시                                                               |
+| 화면과 인터랙션      | 데스크톱 4열, 390px 모바일 2열, 단품 3개·패스 9개 필터, 검색 교집합과 빈 결과                              |
+| 모달과 장바구니      | 상세 표시, 담기, 합계, 삭제, Escape 닫기 확인                                                              |
 
 브라우저 검증은 Aside에서 진행했습니다. 개발자 도구에서 보인 확장 프로그램 경고는 사이트 코드와 분리해 확인했습니다. 첫 확인에서 발견한 favicon 404는 favicon 파일 추가로 수정했습니다. 해당 수정의 실제 배포 반영은 후속 커밋 배포에서 확인합니다. reduced-motion 스타일은 구현했으며 별도 런타임 에뮬레이션 검증은 하지 않았습니다.
 
@@ -176,3 +183,7 @@ Conventional Commits의 `type(scope): subject`를 사용하고 설정, 화면, D
 - [Supabase JavaScript SELECT](https://supabase.com/docs/reference/javascript/select)
 - [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security)
 - [Vercel 환경변수](https://vercel.com/docs/environment-variables)
+
+## 추가 구현 상태
+
+캐러셀·메뉴 페이지·상세·데모 로그인과 400ms 서버 검색 구현은 로컬 ESLint·TypeScript·11개 테스트·프로덕션 빌드를 통과했습니다. 이 변경은 아직 원격 push와 실제 배포 검증을 완료하지 않았습니다. 로컬 서버 실행은 이 환경의 포트 제한으로 사용자 터미널이 필요합니다. 상세 체험과 검증 순서는 [페이지 구현 문서](docs/implemented-pages.md)를 참고하세요.

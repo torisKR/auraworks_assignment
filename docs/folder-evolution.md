@@ -1,6 +1,6 @@
 # 폴더 구조 확장 설계와 면접 설명
 
-현재 구현은 역할별 구조이고, 여러 도메인이 생기면 기능별 구조로 단계적으로 전환할 계획입니다. 이 문서의 `features/` 구조는 향후 설계안이며 현재 존재하는 폴더가 아닙니다. 기능 구현 전에 빈 폴더나 사용하지 않는 추상화를 만들지 않습니다.
+현재 구현은 역할별 구조이고, 여러 도메인이 생기면 기능별 구조로 단계적으로 전환할 계획입니다. 현재 상세·데모 인증·OMR·챌린지는 `features/`에 구현했습니다. 아래의 전체 목표 구조와 실제 인증·주문·결제 폴더는 향후 설계안입니다. 기능 구현 전에 빈 폴더나 사용하지 않는 추상화를 만들지 않습니다.
 
 ## 1. 현재 폴더 구조
 
@@ -23,7 +23,7 @@ supabase/
 docs/                          # 설계·확장·면접·배포 문서
 ```
 
-과제는 교재 스토어 한 화면이 중심입니다. 따라서 UI, 조회 생명주기, 데이터 접근, 타입을 분리하는 것만으로 변경 지점을 명확하게 만들 수 있습니다.
+최초 과제는 교재 스토어 한 화면이 중심이었습니다. 메뉴와 상세 경로가 추가되어 공통 헤더·푸터·로그인·장바구니 상태를 `components/layout/site-shell.tsx`로 옮겼습니다. 현재 추가된 구조와 동작은 [페이지 구현 문서](implemented-pages.md)에 정리했습니다. 이동 표는 앞으로 남은 구조 전환의 예시입니다.
 
 ## 2. 기능별 구조로 전환할 시점
 
@@ -101,16 +101,16 @@ docs/                         # 결정 이유와 운영 절차
 
 ## 4. 폴더별 책임과 의존 방향
 
-| 영역 | 해야 하는 일 | 넣지 않을 일 |
-| --- | --- | --- |
-| `app` | URL 입력 처리, 페이지 조합, 메타데이터, HTTP 경로 | 복잡한 주문 계산이나 재사용 DB 쿼리 |
-| 기능의 `components` | 화면 표시와 사용자 입력 | 비밀 키 접근, 결제 검증, SQL 계약 |
-| 기능의 `hooks` | 요청 생명주기·캐시·클라이언트 상태 | 관리자 권한의 최종 판단 |
-| 기능의 `api` | 브라우저에서 허용된 데이터 접근 | 서버 전용 자격 증명 |
-| 기능의 `server` | 인증·권한·금액 검증과 서버 작업 | React의 클라이언트 상태 |
-| 기능의 `model` | 타입과 외부 의존 없는 업무 규칙 | DB 연결과 브라우저 API |
-| `lib` | 여러 기능에 필요한 기반 연결 | 모든 기능의 업무 로직을 한 파일에 모으기 |
-| 생성된 DB 타입 | 실제 테이블·컬럼 계약 | 화면 전용 상태와 폼 타입 |
+| 영역                | 해야 하는 일                                      | 넣지 않을 일                             |
+| ------------------- | ------------------------------------------------- | ---------------------------------------- |
+| `app`               | URL 입력 처리, 페이지 조합, 메타데이터, HTTP 경로 | 복잡한 주문 계산이나 재사용 DB 쿼리      |
+| 기능의 `components` | 화면 표시와 사용자 입력                           | 비밀 키 접근, 결제 검증, SQL 계약        |
+| 기능의 `hooks`      | 요청 생명주기·캐시·클라이언트 상태                | 관리자 권한의 최종 판단                  |
+| 기능의 `api`        | 브라우저에서 허용된 데이터 접근                   | 서버 전용 자격 증명                      |
+| 기능의 `server`     | 인증·권한·금액 검증과 서버 작업                   | React의 클라이언트 상태                  |
+| 기능의 `model`      | 타입과 외부 의존 없는 업무 규칙                   | DB 연결과 브라우저 API                   |
+| `lib`               | 여러 기능에 필요한 기반 연결                      | 모든 기능의 업무 로직을 한 파일에 모으기 |
+| 생성된 DB 타입      | 실제 테이블·컬럼 계약                             | 화면 전용 상태와 폼 타입                 |
 
 ```mermaid
 flowchart TD
@@ -141,17 +141,17 @@ flowchart TD
 
 ## 6. 기존 파일을 옮기는 방법
 
-| 현재 파일 | 향후 이동 후보 | 이동 시점 |
-| --- | --- | --- |
-| `components/store/textbook-card.tsx` | `features/textbooks/components/textbook-card.tsx` | 상세 경로 추가 |
-| `components/store/catalog-toolbar.tsx` | `features/textbooks/components/catalog-toolbar.tsx` | 목록 조건 확장 |
-| `components/store/product-detail.tsx` | `features/textbooks/components/product-detail.tsx` | 상세 UI 재사용 |
-| `hooks/use-textbooks.ts` | `features/textbooks/hooks/use-textbooks.ts` | 목록 조회 확장 |
-| `lib/textbooks.ts` | `features/textbooks/api/fetch-textbooks.ts` | 브라우저·서버 조회 분리 |
-| `lib/catalog.ts`와 테스트 | `features/textbooks/model/` | 교재 기능 폴더 도입 |
-| `components/store/cart-content.tsx` | `features/cart/components/cart-content.tsx` | 회원 장바구니 도입 |
-| `components/store/store-dialog.tsx` | `components/ui/dialog.tsx` | 여러 기능에서 실제 재사용 |
-| `types/database.ts` | 생성된 DB 타입과 기능별 타입 | 스키마 확장 |
+| 현재 파일                              | 향후 이동 후보                                      | 이동 시점                 |
+| -------------------------------------- | --------------------------------------------------- | ------------------------- |
+| `components/store/textbook-card.tsx`   | `features/textbooks/components/textbook-card.tsx`   | 상세 경로 추가            |
+| `components/store/catalog-toolbar.tsx` | `features/textbooks/components/catalog-toolbar.tsx` | 목록 조건 확장            |
+| `components/store/product-detail.tsx`  | `features/textbooks/components/product-detail.tsx`  | 상세 UI 재사용            |
+| `hooks/use-textbooks.ts`               | `features/textbooks/hooks/use-textbooks.ts`         | 목록 조회 확장            |
+| `lib/textbooks.ts`                     | `features/textbooks/api/fetch-textbooks.ts`         | 브라우저·서버 조회 분리   |
+| `lib/catalog.ts`와 테스트              | `features/textbooks/model/`                         | 교재 기능 폴더 도입       |
+| `components/store/cart-content.tsx`    | `features/cart/components/cart-content.tsx`         | 회원 장바구니 도입        |
+| `components/store/store-dialog.tsx`    | `components/ui/dialog.tsx`                          | 여러 기능에서 실제 재사용 |
+| `types/database.ts`                    | 생성된 DB 타입과 기능별 타입                        | 스키마 확장               |
 
 `Storefront`는 목록과 공통 화면을 조합하는 진입점으로 줄입니다. 현재의 검색·필터는 교재 기능에, 장바구니 상태는 장바구니 기능에 옮깁니다. 화면 자체에만 필요한 모달 열림 상태는 가까운 컴포넌트에 유지할 수 있습니다.
 
