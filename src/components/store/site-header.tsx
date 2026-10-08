@@ -12,11 +12,17 @@ const navigation = [
 ];
 type SiteHeaderProps = {
   cartCount: number;
+  unreadNotificationCount: number;
   onOpenCart: () => void;
   onOpenNotifications: () => void;
 };
 
-export function SiteHeader({ cartCount, onOpenCart, onOpenNotifications }: SiteHeaderProps) {
+export function SiteHeader({
+  cartCount,
+  unreadNotificationCount,
+  onOpenCart,
+  onOpenNotifications,
+}: SiteHeaderProps) {
   const pathname = usePathname();
   return (
     <header className="site-header">
@@ -49,9 +55,20 @@ export function SiteHeader({ cartCount, onOpenCart, onOpenNotifications }: SiteH
             <Icon name="cart" />
             {cartCount > 0 && <span className="notification-badge">{cartCount}</span>}
           </button>
-          <button className="icon-button" aria-label="알림" onClick={onOpenNotifications}>
+          <button
+            className="icon-button"
+            aria-label={
+              unreadNotificationCount > 0
+                ? `알림, 읽지 않은 알림 ${unreadNotificationCount}개`
+                : "알림, 읽지 않은 알림 없음"
+            }
+            aria-haspopup="dialog"
+            onClick={onOpenNotifications}
+          >
             <Icon name="bell" />
-            <span className="notification-badge">1</span>
+            {unreadNotificationCount > 0 && (
+              <span className="notification-badge">{unreadNotificationCount}</span>
+            )}
           </button>
           <Link
             className="icon-button"

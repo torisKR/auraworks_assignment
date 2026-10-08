@@ -5,6 +5,8 @@ import { SiteHeader } from "@/components/store/site-header";
 import { SiteFooter } from "@/components/store/site-footer";
 import { StoreDialog } from "@/components/store/store-dialog";
 import { CartContent } from "@/components/store/cart-content";
+import { NotificationList } from "@/features/notifications/notification-list";
+import { useNotifications } from "@/hooks/use-notifications";
 import type { Textbook } from "@/types/database";
 
 type GuestUser = { name: string };
@@ -27,6 +29,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Textbook[]>([]);
   const [dialog, setDialog] = useState<"cart" | "notifications" | null>(null);
   const [announcement, setAnnouncement] = useState("");
+  const { items: notifications, unreadCount, markAllAsRead } = useNotifications();
 
   function addToCart(textbook: Textbook) {
     setCart((items) => [...items, textbook]);
@@ -48,8 +51,12 @@ export function SiteShell({ children }: { children: ReactNode }) {
       </a>
       <SiteHeader
         cartCount={cart.length}
+        unreadNotificationCount={unreadCount}
         onOpenCart={() => setDialog("cart")}
-        onOpenNotifications={() => setDialog("notifications")}
+        onOpenNotifications={() => {
+          markAllAsRead();
+          setDialog("notifications");
+        }}
       />
       <main id="main-content">{children}</main>
       <SiteFooter />
@@ -69,10 +76,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               }
             />
           ) : (
-            <div className="info-content">
-              <p>2026 시즌7 교재가 업데이트되었습니다.</p>
-              <p className="dialog-note">스토어에서 과목별 교재와 시즌 패스를 확인해 보세요.</p>
-            </div>
+            <NotificationList items={notifications} onNavigate={() => setDialog(null)} />
           )}
         </StoreDialog>
       )}

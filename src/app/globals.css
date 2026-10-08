@@ -431,6 +431,7 @@ svg {
   border: 1px solid var(--line);
   border-radius: 12px;
   color: var(--ink);
+  background: #fff;
 }
 .store-dialog::backdrop {
   background: rgb(0 0 0 / 45%);
@@ -509,6 +510,41 @@ svg {
 .info-content {
   line-height: 1.8;
   color: #737784;
+}
+.notification-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.notification-item + .notification-item {
+  border-top: 1px solid var(--line);
+  margin-top: 24px;
+  padding-top: 24px;
+}
+.notification-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: #626879;
+  font-size: 12px;
+}
+.notification-item h3 {
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.5;
+}
+.notification-item p {
+  margin: 10px 0 18px;
+  color: #454b5a;
+  font-size: 14px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+.notification-item .text-button {
+  color: var(--brand-strong);
+  min-height: 44px;
 }
 @keyframes pulse {
   50% {
