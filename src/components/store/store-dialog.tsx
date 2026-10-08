@@ -13,9 +13,25 @@ export function StoreDialog({ title, onClose, children }: StoreDialogProps) {
   }, []);
 
   return (
-    <dialog ref={dialogRef} className="store-dialog" aria-labelledby="dialog-title" onCancel={(event) => { event.preventDefault(); onClose(); }} onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+    <dialog
+      ref={dialogRef}
+      className="store-dialog"
+      aria-labelledby="dialog-title"
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
       <div className="dialog-content">
-        <div className="dialog-heading"><h2 id="dialog-title">{title}</h2><button className="icon-button" aria-label="닫기" onClick={onClose}><Icon name="close" /></button></div>
+        <div className="dialog-heading">
+          <h2 id="dialog-title">{title}</h2>
+          <button className="icon-button" aria-label="닫기" onClick={onClose}>
+            <Icon name="close" />
+          </button>
+        </div>
         {children}
       </div>
     </dialog>

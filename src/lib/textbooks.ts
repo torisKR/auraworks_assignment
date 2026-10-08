@@ -5,7 +5,9 @@ import type { Textbook } from "@/types/database";
 export async function fetchTextbooks(signal: AbortSignal): Promise<Textbook[]> {
   const { data, error } = await getSupabaseClient()
     .from("textbooks")
-    .select("id,title,category,subject,description,image_path,price,original_price,discount_percent,display_order")
+    .select(
+      "id,title,category,subject,description,image_path,price,original_price,discount_percent,display_order",
+    )
     .order("display_order", { ascending: true })
     .abortSignal(signal);
 

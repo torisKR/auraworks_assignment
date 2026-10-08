@@ -20,6 +20,9 @@ assert.equal(error, null, "Anonymous catalog SELECT must succeed.");
 assert.equal(data.length, 12, "The seed contains 12 textbooks.");
 assert.equal(data.filter((row) => row.category === "single").length, 3);
 assert.equal(data.filter((row) => row.category === "pass").length, 9);
-assert.deepEqual(data.map((row) => row.display_order), Array.from({ length: 12 }, (_, index) => index + 1));
+assert.deepEqual(
+  data.map((row) => row.display_order),
+  Array.from({ length: 12 }, (_, index) => index + 1),
+);
 
 console.log("Supabase catalog verified: 12 rows, 3 single products, 9 passes, correct order.");
