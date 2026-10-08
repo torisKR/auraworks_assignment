@@ -40,7 +40,7 @@ FAQ의 화면 내용과 JSON-LD 및 Markdown은 같은 `demoFaq` 데이터를 �
 2. `/robots.txt`, `/sitemap.xml`, `/llms.txt`, `/site-guide.md`의 공개 응답과 링크를 확인합니다.
 3. 소개 페이지의 FAQ가 JavaScript 실행 전 HTML에도 있는지 확인합니다.
 4. 배포 뒤 대표 도메인이 최신 소스를 제공하는지, Preview가 색인 제외되는지 확인합니다.
-5. 실서비스 전환 후 Search Console 소유권을 확인하고 사이트맵을 제출합니다. 현재 Search Console 등록·검색엔진 색인·AI 답변 인용 여부는 확인하지 않았습니다.
+5. Search Console의 해당 속성 접근과 공개 검색·AI 답변을 별도로 확인합니다. 2026-10-08 추가 검증에서는 Google 검색 결과에 배포 사이트가 없었고 해당 속성 접근 권한이 없어 공식 URL 검사는 수행하지 못했습니다. Perplexity는 프로젝트 GitHub 저장소를 인용했지만 배포 도메인은 발견하지 못했습니다. 질의·HTTP 응답·확인 한계는 [추가 검증 결과](verification-results.md)에 기록했습니다.
 
 Google 검색 및 AI 검색의 실제 노출은 별도로 측정해야 합니다. 설정 파일 생성과 배포 성공을 인용 성공으로 표현하지 않습니다. 주기적으로 사이트의 기능과 FAQ가 일치하는지 검토하고, 중요한 검색 질문에 대한 실제 검색 결과와 유입을 기록합니다.
 

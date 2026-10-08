@@ -151,19 +151,19 @@ GitHub Actions에서도 lint, typecheck, unit tests, build를 실행합니다. �
 
 2026-10-08 검증 결과:
 
-| 검증               | 확인 결과                                                                                              |
-| ------------------ | ------------------------------------------------------------------------------------------------------ |
-| 정적 검사와 테스트 | ESLint·TypeScript·프로덕션 빌드, 단위 테스트 12개 통과                                                 |
-| 원격 CI            | [SEO·모션 구현 검사](https://github.com/torisKR/auraworks_assignment/actions/runs/37729431253) Success |
-| Vercel             | `6a50378`의 SEO·모션 구현 Production 배포 성공                                                         |
-| Supabase           | 실제 사이트에서 교재 12개 조회. 익명 SELECT 허용과 쓰기 차단은 SQL Editor 검증                         |
-| 검색·상세·로그인   | 수학 4개, 수학+단품 1개, 빈 결과 0개, 초기화, 단건 상세·64,800원 담기, 데모 로그인 확인                |
-| 캐러셀             | 다음 이동, 드래그 5→1 순환, 재생 후 자동 이동, 정지 확인                                               |
-| 모바일             | 390px·320px에서 가로 넘침 없음, 44×44px 이동·재생 버튼, 2열 교재                                       |
-| 동작 줄이기        | 에뮬레이션에서 실제 transition 0s, 진행선 숨김, 자동 재생 비활성화 확인                                |
-| SEO/GEO            | canonical, 서버 HTML FAQ·JSON-LD 일치, 공개 llms.txt·robots.txt·sitemap.xml 확인                       |
+| 검증               | 확인 결과                                                                                                   |
+| ------------------ | ----------------------------------------------------------------------------------------------------------- |
+| 정적 검사와 테스트 | ESLint·TypeScript·프로덕션 빌드, 단위 테스트 12개 통과                                                      |
+| 원격 CI            | [터치 스와이프 수정 검사](https://github.com/torisKR/auraworks_assignment/actions/runs/37732427663) Success |
+| Vercel             | `79e208a`의 터치 스와이프 수정 Production 배포 성공                                                         |
+| Supabase           | 실제 사이트에서 교재 12개 조회. 익명 SELECT 허용과 쓰기 차단은 SQL Editor 검증                              |
+| 검색·상세·로그인   | 수학 4개, 수학+단품 1개, 빈 결과 0개, 초기화, 단건 상세·64,800원 담기, 데모 로그인 확인                     |
+| 캐러셀             | 다음 이동, 드래그 5→1 순환, 재생 후 자동 이동, 정지 확인                                                    |
+| 모바일             | 390px·320px 가로 넘침 없음. 수정 후 390px 터치 에뮬레이션에서 이미지 스와이프 1→2·1→5 확인                  |
+| 동작 줄이기        | 에뮬레이션에서 실제 transition 0s, 진행선 숨김, 자동 재생 비활성화 확인                                     |
+| SEO/GEO            | canonical, 서버 HTML FAQ·JSON-LD 일치, 공개 llms.txt·robots.txt·sitemap.xml 확인                            |
 
-브라우저 검증은 Aside에서 진행했습니다. 개발자 도구의 MetaMask·Grabbit 등 확장 프로그램 경고와 XML 페이지에서 발생한 확장 프로그램 오류는 사이트 코드와 구분했습니다. 로컬 Supabase 검증 CLI는 이 실행 환경의 DNS 제한으로 실패하여 원격 데이터는 실제 브라우저 조회와 기존 SQL Editor 결과를 근거로 기록했습니다. 모바일은 DevTools 에뮬레이션 검증이며 실제 휴대전화 검증은 수행하지 않았습니다. Search Console 등록·검색엔진 색인·AI 인용 여부는 확인하지 않았습니다.
+브라우저 검증은 Aside에서 진행했습니다. 개발자 도구의 MetaMask·Grabbit 등 확장 프로그램 경고와 XML 페이지에서 발생한 확장 프로그램 오류는 사이트 코드와 구분했습니다. 로컬 Supabase 검증 CLI는 이 실행 환경의 DNS 제한으로 실패하여 원격 데이터는 실제 브라우저 조회와 기존 SQL Editor 결과를 근거로 기록했습니다. 모바일은 DevTools 에뮬레이션이며 실기기 ADB는 소켓 권한 제한으로 접근하지 못했습니다. Google 검색에서 배포 사이트 노출을 확인하지 못했고 Search Console URL 검사는 속성 권한으로 차단됐습니다. Perplexity는 GitHub 저장소를 인용했으나 배포 사이트는 발견하지 못했습니다. 질의와 남은 확인 항목은 [추가 검증 결과](docs/verification-results.md)에 기록했습니다.
 
 ## 기존 작업 폴더 동기화
 
@@ -190,4 +190,4 @@ Conventional Commits의 `type(scope): subject`를 사용하고 설정, 화면, D
 
 캐러셀·메뉴 페이지·상세·데모 로그인과 400ms Supabase 검색은 GitHub에 반영하고 Vercel에 배포했습니다. Aside에서 교재 12개, 수학 검색 4개, 수학+단품 1개, 검색 없음 0개, 초기화, 상세 조회, 64,800원 장바구니 담기, Escape 닫기와 데모 로그인·챌린지 이동을 확인했습니다.
 
-후속 SEO/GEO 및 인터랙션 구현은 ESLint·TypeScript·12개 테스트·프로덕션 빌드를 통과했습니다. canonical, Open Graph, 사이트맵, robots.txt, 서버 렌더링 FAQ와 JSON-LD, llms.txt를 추가했습니다. 캐러셀은 방향 전환·드래그·스와이프·재생 진행선을 제공하며, 원본 아트워크를 유지합니다. 구현 판단은 [인터랙션 디자인](docs/interaction-design.md), 검색 노출 범위와 공식 자료는 [SEO·AI SEO·GEO](docs/seo-and-geo.md)에 정리했습니다. 실제 검색엔진 색인이나 AI 인용 결과는 확인하지 않았습니다.
+후속 SEO/GEO 및 인터랙션 구현은 ESLint·TypeScript·12개 테스트·프로덕션 빌드를 통과했습니다. canonical, Open Graph, 사이트맵, robots.txt, 서버 렌더링 FAQ와 JSON-LD, llms.txt를 추가했습니다. 캐러셀은 방향 전환·드래그·스와이프·재생 진행선을 제공하며, 원본 아트워크를 유지합니다. 구현 판단은 [인터랙션 디자인](docs/interaction-design.md), 검색 노출 범위와 공식 자료는 [SEO·AI SEO·GEO](docs/seo-and-geo.md), 실제 검증과 확인 한계는 [추가 검증 결과](docs/verification-results.md)에 정리했습니다.
