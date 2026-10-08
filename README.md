@@ -149,19 +149,21 @@ pnpm verify:supabase   # 실제 익명 REST 조회 및 seed 검증
 
 GitHub Actions에서도 lint, typecheck, unit tests, build를 실행합니다. 빌드 통과는 Supabase 연결 성공이나 UI 검증을 대신하지 않습니다. 테스트는 원화 표시, 검색 정규화, PostgREST 검색 조건, 특수문자 처리, 스로틀의 첫·마지막 입력과 예약 취소를 다룹니다.
 
-2026-10-08 최초 배포 검증 결과(기존 `2095b1b` 버전):
+2026-10-08 검증 결과:
 
-| 검증                 | 확인 결과                                                                                                  |
-| -------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 정적 검사와 테스트   | ESLint, TypeScript, 단위 테스트 6개 통과                                                                   |
-| 원격 CI              | [Quality checks 실행 #2](https://github.com/torisKR/auraworks_assignment/actions/runs/37721779107) Success |
-| Vercel               | `2095b1b` 커밋의 Production 배포 Ready                                                                     |
-| Supabase             | 익명 조회 12개, RLS 활성화, INSERT/UPDATE/DELETE 권한 없음                                                 |
-| 브라우저 데이터 조회 | Supabase REST fetch HTTP 200, 교재 12개 표시                                                               |
-| 화면과 인터랙션      | 데스크톱 4열, 390px 모바일 2열, 단품 3개·패스 9개 필터, 검색 교집합과 빈 결과                              |
-| 모달과 장바구니      | 상세 표시, 담기, 합계, 삭제, Escape 닫기 확인                                                              |
+| 검증               | 확인 결과                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------ |
+| 정적 검사와 테스트 | ESLint·TypeScript·프로덕션 빌드, 단위 테스트 12개 통과                                                 |
+| 원격 CI            | [SEO·모션 구현 검사](https://github.com/torisKR/auraworks_assignment/actions/runs/37729431253) Success |
+| Vercel             | `6a50378`의 SEO·모션 구현 Production 배포 성공                                                         |
+| Supabase           | 실제 사이트에서 교재 12개 조회. 익명 SELECT 허용과 쓰기 차단은 SQL Editor 검증                         |
+| 검색·상세·로그인   | 수학 4개, 수학+단품 1개, 빈 결과 0개, 초기화, 단건 상세·64,800원 담기, 데모 로그인 확인                |
+| 캐러셀             | 다음 이동, 드래그 5→1 순환, 재생 후 자동 이동, 정지 확인                                               |
+| 모바일             | 390px·320px에서 가로 넘침 없음, 44×44px 이동·재생 버튼, 2열 교재                                       |
+| 동작 줄이기        | 에뮬레이션에서 실제 transition 0s, 진행선 숨김, 자동 재생 비활성화 확인                                |
+| SEO/GEO            | canonical, 서버 HTML FAQ·JSON-LD 일치, 공개 llms.txt·robots.txt·sitemap.xml 확인                       |
 
-브라우저 검증은 Aside에서 진행했습니다. 개발자 도구에서 보인 확장 프로그램 경고는 사이트 코드와 분리해 확인했습니다. 첫 확인에서 발견한 favicon 404는 favicon 파일 추가로 수정했습니다. 해당 수정의 실제 배포 반영은 후속 커밋 배포에서 확인합니다. reduced-motion 스타일은 구현했으며 별도 런타임 에뮬레이션 검증은 하지 않았습니다.
+브라우저 검증은 Aside에서 진행했습니다. 개발자 도구의 MetaMask·Grabbit 등 확장 프로그램 경고와 XML 페이지에서 발생한 확장 프로그램 오류는 사이트 코드와 구분했습니다. 로컬 Supabase 검증 CLI는 이 실행 환경의 DNS 제한으로 실패하여 원격 데이터는 실제 브라우저 조회와 기존 SQL Editor 결과를 근거로 기록했습니다. 모바일은 DevTools 에뮬레이션 검증이며 실제 휴대전화 검증은 수행하지 않았습니다. Search Console 등록·검색엔진 색인·AI 인용 여부는 확인하지 않았습니다.
 
 ## 기존 작업 폴더 동기화
 
@@ -186,4 +188,6 @@ Conventional Commits의 `type(scope): subject`를 사용하고 설정, 화면, D
 
 ## 추가 구현 상태
 
-캐러셀·메뉴 페이지·상세·데모 로그인과 400ms 서버 검색 구현은 로컬 ESLint·TypeScript·11개 테스트·프로덕션 빌드를 통과했습니다. 이 변경은 아직 원격 push와 실제 배포 검증을 완료하지 않았습니다. 로컬 서버 실행은 이 환경의 포트 제한으로 사용자 터미널이 필요합니다. 상세 체험과 검증 순서는 [페이지 구현 문서](docs/implemented-pages.md)를 참고하세요.
+캐러셀·메뉴 페이지·상세·데모 로그인과 400ms Supabase 검색은 GitHub에 반영하고 Vercel에 배포했습니다. Aside에서 교재 12개, 수학 검색 4개, 수학+단품 1개, 검색 없음 0개, 초기화, 상세 조회, 64,800원 장바구니 담기, Escape 닫기와 데모 로그인·챌린지 이동을 확인했습니다.
+
+후속 SEO/GEO 및 인터랙션 구현은 ESLint·TypeScript·12개 테스트·프로덕션 빌드를 통과했습니다. canonical, Open Graph, 사이트맵, robots.txt, 서버 렌더링 FAQ와 JSON-LD, llms.txt를 추가했습니다. 캐러셀은 방향 전환·드래그·스와이프·재생 진행선을 제공하며, 원본 아트워크를 유지합니다. 구현 판단은 [인터랙션 디자인](docs/interaction-design.md), 검색 노출 범위와 공식 자료는 [SEO·AI SEO·GEO](docs/seo-and-geo.md)에 정리했습니다. 실제 검색엔진 색인이나 AI 인용 결과는 확인하지 않았습니다.

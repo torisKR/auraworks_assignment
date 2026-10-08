@@ -10,6 +10,8 @@
 | [향후 기능 구현 계획](future-extension.md)      | 목록·상세·인증·장바구니·주문·관리자·AI OMR의 구현 순서와 완료 기준 |
 | [면접 준비](interview.md)                       | 설명 예시, 예상 질문과 시연 순서                                   |
 | [배포 안내](deployment.md)                      | GitHub·Vercel 설정과 실제 배포 검증                                |
+| [인터랙션 디자인](interaction-design.md)        | 캐러셀 전환, 제스처, 재생·일시정지, 접근성에 관한 구현 판단        |
+| [SEO·AI SEO·GEO](seo-and-geo.md)                | canonical, 사이트맵, 공개 FAQ, 구조화 데이터와 AI용 안내           |
 
 ## 면접 준비 순서
 
