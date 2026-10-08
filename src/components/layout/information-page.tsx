@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ContentPage } from "@/components/layout/content-page";
 import { informationPages } from "@/data/information-pages";
+import { DemoFaq } from "@/components/layout/demo-faq";
 export function InformationPage({ kind }: { kind: keyof typeof informationPages }) {
   const page = informationPages[kind];
   return (
@@ -19,6 +20,7 @@ export function InformationPage({ kind }: { kind: keyof typeof informationPages 
         <Link className="primary-button" href="/store">
           스토어 둘러보기 →
         </Link>
+        {kind === "about" && <DemoFaq />}
       </div>
     </ContentPage>
   );

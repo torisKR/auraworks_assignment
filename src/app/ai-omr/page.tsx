@@ -1,7 +1,11 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/site";
 import { ContentPage } from "@/components/layout/content-page";
 import { OmrWorkspace } from "@/features/omr/omr-workspace";
-export const metadata: Metadata = { title: "AI OMR WORK | HIDDEN KICE" };
+export const metadata = pageMetadata(
+  "AI OMR WORK · 채점 체험",
+  "5문항의 예시 답안을 선택하고 준비된 정답과 비교하는 채점 데모입니다. 실제 AI 분석은 제공하지 않습니다.",
+  "/ai-omr",
+);
 export default function Page() {
   return (
     <ContentPage

@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SiteShell } from "@/components/layout/site-shell";
+import { pageMetadata, siteDescription, siteName, siteUrl } from "@/lib/site";
+import { serializeStructuredData } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "HIDDEN KICE | 히든카이스 교재 스토어",
-  description:
-    "상위권이 선택한 문제집, 결과로 증명된 실전 대비서. 2026 히든카이스 시즌7 교재를 만나보세요.",
+  metadataBase: new URL(siteUrl),
+  ...pageMetadata("히든카이스 교재 스토어 · 과제용 데모", siteDescription, "/"),
 };
 
 export const viewport: Viewport = { themeColor: "#8274e8" };
@@ -14,6 +15,20 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ko">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: serializeStructuredData({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": `${siteUrl}/#website`,
+              name: siteName,
+              url: siteUrl,
+              description: siteDescription,
+              inLanguage: "ko-KR",
+            }),
+          }}
+        />
         <SiteShell>{children}</SiteShell>
       </body>
     </html>
