@@ -149,7 +149,7 @@ flowchart TD
 | `hooks/use-textbooks.ts`               | `features/textbooks/hooks/use-textbooks.ts`         | 목록 조회 확장            |
 | `lib/textbooks.ts`                     | `features/textbooks/api/fetch-textbooks.ts`         | 브라우저·서버 조회 분리   |
 | `lib/catalog.ts`와 테스트              | `features/textbooks/model/`                         | 교재 기능 폴더 도입       |
-| `components/store/cart-content.tsx`    | `features/cart/components/cart-content.tsx`         | 회원 장바구니 도입        |
+| `features/cart/cart-content.tsx`       | `features/cart/components/cart-content.tsx`         | 회원 장바구니 도입        |
 | `components/store/store-dialog.tsx`    | `components/ui/dialog.tsx`                          | 여러 기능에서 실제 재사용 |
 | `types/database.ts`                    | 생성된 DB 타입과 기능별 타입                        | 스키마 확장               |
 

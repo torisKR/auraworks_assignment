@@ -20,7 +20,7 @@ Prefer feature-specific components over premature universal abstractions. Introd
 - Keep loading, empty, error, and success states explicit.
 - Abort abandoned requests and avoid updating state after unmount.
 - Preserve supplied desktop artwork and extend it with responsive layouts.
-- This assignment implements a catalog, filtering, product inspection, and a temporary in-memory cart. Authentication and real payment are outside the implemented scope.
+- This assignment implements a catalog, filtering, product inspection, and a browser-persisted guest cart with quantity and selection controls. Authentication and real payment are outside the implemented scope.
 - Enable RLS and grant anonymous users only SELECT on the public catalog. Never put secret or service-role keys in `NEXT_PUBLIC_*` variables.
 - Never commit `.env.local`, `.vercel`, build output, or credentials.
 
