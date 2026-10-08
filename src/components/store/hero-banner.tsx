@@ -182,7 +182,10 @@ export function HeroBanner() {
         onPointerMove={dragGesture}
         onPointerUp={(event) => finishGesture(event)}
         onPointerCancel={(event) => finishGesture(event, true)}
-        onLostPointerCapture={(event) => finishGesture(event, true)}
+        onLostPointerCapture={(event) => {
+          // Touch initially captures the image; its bubbled loss during transfer must not cancel the drag.
+          if (event.target === event.currentTarget) finishGesture(event, true);
+        }}
         onDragStart={(event) => event.preventDefault()}
         onClickCapture={(event) => {
           if (suppressClick.current && event.detail > 0) {
