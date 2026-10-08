@@ -587,7 +587,7 @@ svg {
     font-size: 13px;
   }
   .main-nav a:last-child {
-    display: block;
+    display: inline-flex;
   }
   .hero {
     overflow: hidden;
@@ -1613,7 +1613,12 @@ svg {
   transition: none;
 }
 .demo-faq {
+  margin-top: 64px;
+  padding-top: 32px;
   border-top: 1px solid var(--line);
+}
+.demo-faq > h2 {
+  margin-bottom: 24px;
 }
 .demo-faq details {
   border-bottom: 1px solid var(--line);
