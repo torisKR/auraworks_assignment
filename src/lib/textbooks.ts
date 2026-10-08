@@ -1,18 +1,24 @@
 import { getSupabaseClient } from "@/lib/supabase";
+import { buildSearchFilter } from "@/lib/catalog-query";
+import type { CategoryFilter } from "@/lib/catalog";
 import type { Textbook } from "@/types/database";
+const columns =
+  "id,title,category,subject,description,image_path,price,original_price,discount_percent,display_order";
 
-/** Fetch only public catalog fields; ordering follows the supplied design. */
-export async function fetchTextbooks(signal: AbortSignal): Promise<Textbook[]> {
-  const { data, error } = await getSupabaseClient()
-    .from("textbooks")
-    .select(
-      "id,title,category,subject,description,image_path,price,original_price,discount_percent,display_order",
-    )
+/** Search and category conditions are applied by Supabase, not a local fallback. */
+export async function fetchTextbooks(
+  signal: AbortSignal,
+  query = "",
+  category: CategoryFilter = "all",
+): Promise<Textbook[]> {
+  let request = getSupabaseClient().from("textbooks").select(columns);
+  const filter = buildSearchFilter(query);
+  if (filter) request = request.or(filter);
+  if (category !== "all") request = request.eq("category", category);
+  const { data, error } = await request
     .order("display_order", { ascending: true })
     .abortSignal(signal);
-
   if (error) throw new Error("교재 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
-
   return data ?? [];
 }
 
@@ -20,7 +26,7 @@ export async function fetchTextbook(id: string, signal: AbortSignal): Promise<Te
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return null;
   const { data, error } = await getSupabaseClient()
     .from("textbooks")
-    .select("id,title,category,subject,description,image_path,price,original_price,discount_percent,display_order")
+    .select(columns)
     .eq("id", id)
     .abortSignal(signal)
     .maybeSingle();

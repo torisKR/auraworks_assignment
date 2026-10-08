@@ -6,15 +6,14 @@ import { CatalogToolbar } from "@/components/store/catalog-toolbar";
 import { HeroBanner } from "@/components/store/hero-banner";
 import { TextbookCard } from "@/components/store/textbook-card";
 import { useTextbooks } from "@/hooks/use-textbooks";
-import { filterTextbooks, type CategoryFilter } from "@/lib/catalog";
+import type { CategoryFilter } from "@/lib/catalog";
+import { useThrottledSearch } from "@/hooks/use-throttled-search";
 
 export function Storefront() {
   const [category, setCategory] = useState<CategoryFilter>("all");
-  const [search, updateSearch] = useState("");
-  const query = search;
-  const pending = false;
-  const { state, retry } = useTextbooks();
-  const textbooks = state.status === "success" ? filterTextbooks(state.textbooks, category, search) : [];
+  const { search, query, updateSearch, pending } = useThrottledSearch();
+  const { state, retry } = useTextbooks(query, category);
+  const textbooks = state.status === "success" ? state.textbooks : [];
   return (
     <>
       <HeroBanner />
