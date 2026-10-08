@@ -2,8 +2,8 @@ import { pageMetadata } from "@/lib/site";
 import { ContentPage } from "@/components/layout/content-page";
 import { ChallengeBoard } from "@/features/challenges/challenge-board";
 export const metadata = pageMetadata(
-  "챌린지 · 학습 체험",
-  "공용 데모 계정으로 예시 학습 챌린지에 참여하고 체크리스트의 진행률을 확인합니다. 실제 기록은 저장하지 않습니다.",
+  "학습 챌린지",
+  "매일 30분 학습, 오답 복습, 실전 모의고사. 나에게 맞는 챌린지를 선택하고 오늘의 목표를 완료해 보세요.",
   "/challenges",
 );
 export default function Page() {

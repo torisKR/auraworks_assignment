@@ -937,7 +937,7 @@ svg {
   color: #737784;
   line-height: 1.7;
 }
-.demo-notice {
+.session-note {
   background: #f5f3fc;
   border: 1px solid #e9e4f6;
   padding: 16px 20px;
@@ -1612,34 +1612,34 @@ svg {
 .product-link:focus-visible .product-detail-hint {
   transition: none;
 }
-.demo-faq {
+.site-faq {
   margin-top: 64px;
   padding-top: 32px;
   border-top: 1px solid var(--line);
 }
-.demo-faq > h2 {
+.site-faq > h2 {
   margin-bottom: 24px;
 }
-.demo-faq details {
+.site-faq details {
   border-bottom: 1px solid var(--line);
 }
-.demo-faq summary {
+.site-faq summary {
   padding: 20px 0;
   font-weight: 650;
   cursor: pointer;
   list-style-position: inside;
 }
-.demo-faq summary::marker {
+.site-faq summary::marker {
   color: var(--brand-strong);
 }
-.demo-faq summary:focus-visible {
+.site-faq summary:focus-visible {
   outline: 3px solid var(--brand-strong);
   outline-offset: 4px;
 }
-.demo-faq details[open] summary {
+.site-faq details[open] summary {
   color: var(--brand-strong);
 }
-.demo-faq details > p {
+.site-faq details > p {
   padding-bottom: 24px;
   color: #606674;
   line-height: 1.8;

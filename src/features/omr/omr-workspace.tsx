@@ -20,7 +20,7 @@ export function OmrWorkspace() {
       <section className="surface-card">
         <div className="section-heading">
           <h2>시즌7 답안 입력</h2>
-          <span className="pill">국어 · 5문항 예시</span>
+          <span className="pill">국어 · 연습 5문항</span>
         </div>
         <p className="muted">각 문항의 답을 선택하고 결과를 확인해 보세요.</p>
         <div className="answer-sheet">
@@ -65,7 +65,7 @@ export function OmrWorkspace() {
           </button>
         </div>
         <p className="dialog-note">
-          실제 AI 분석이나 파일 업로드를 사용하지 않는 답안 채점 데모입니다.
+          답안을 직접 입력해 채점하세요. 답안 사진 분석 기능은 준비 중입니다.
         </p>
       </section>
       <section className="surface-card omr-result" aria-live="polite">
@@ -98,7 +98,7 @@ export function OmrWorkspace() {
                 </li>
               ))}
             </ul>
-            <p className="demo-notice">틀린 문항을 다시 풀며 나만의 복습 루틴을 만들어 보세요.</p>
+            <p className="session-note">틀린 문항을 다시 풀며 나만의 복습 루틴을 만들어 보세요.</p>
           </>
         ) : (
           <>

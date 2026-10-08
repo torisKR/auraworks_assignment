@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { ContentPage } from "@/components/layout/content-page";
 import { informationPages } from "@/data/information-pages";
-import { DemoFaq } from "@/components/layout/demo-faq";
+import { SiteFaq } from "@/components/layout/site-faq";
 export function InformationPage({ kind }: { kind: keyof typeof informationPages }) {
   const page = informationPages[kind];
   return (
     <ContentPage eyebrow={page.eyebrow} title={page.title} description={page.description}>
       <div className={kind === "terms" || kind === "privacy" ? "policy-content" : "brand-content"}>
-        {page.notice && <p className="demo-notice">{page.notice}</p>}
         {page.sections.map((section, index) => (
           <section className="information-section" key={section.title}>
             {kind === "about" || kind === "company" ? (
@@ -20,7 +19,7 @@ export function InformationPage({ kind }: { kind: keyof typeof informationPages 
         <Link className="primary-button" href="/store">
           스토어 둘러보기 →
         </Link>
-        {kind === "about" && <DemoFaq />}
+        {kind === "about" && <SiteFaq />}
       </div>
     </ContentPage>
   );

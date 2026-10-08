@@ -1,8 +1,8 @@
 import { pageMetadata } from "@/lib/site";
-import { LoginPage } from "@/features/demo-auth/login-page";
+import { LoginPage } from "@/features/auth/login-page";
 export const metadata = pageMetadata(
-  "데모 로그인",
-  "실제 계정 없이 안내된 공용 데모 계정으로 로그인 화면과 임시 사용자 상태를 체험합니다.",
+  "로그인 · 내 학습 공간",
+  "히든카이스와 함께 나만의 학습 루틴을 시작하세요. 게스트로 학습 챌린지를 이용할 수 있습니다.",
   "/login",
   { index: false },
 );

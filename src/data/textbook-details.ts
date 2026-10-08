@@ -1,6 +1,6 @@
 /** Detail-only sample content; core textbook data always comes from Supabase. */
 export const textbookDetail = {
-  publisher: "히든카이스 에듀 · 데모 출판 정보",
+  publisher: "히든카이스 에듀",
   publishedAt: "2026년 9월",
   audience: "고등학교 3학년 · N수생",
   highlights: [
@@ -15,12 +15,14 @@ export const textbookDetail = {
     "04. 시즌7 실전 모의 평가",
     "05. 해설과 오답 복습",
   ],
-  reviews: [
+  studyNotes: [
     {
-      name: "김○○",
-      rating: 5,
-      body: "매일 조금씩 풀기 좋은 구성입니다. 해설과 함께 복습하고 있어요.",
+      title: "시간을 정해 풀어보세요",
+      body: "문항별 풀이 시간을 기록하면 실전에서 나의 시간 배분을 점검할 수 있습니다.",
     },
-    { name: "이○○", rating: 4, body: "실전 감각을 점검하는 데 도움이 되는 예시 교재입니다." },
+    {
+      title: "해설은 복습의 시작입니다",
+      body: "틀린 이유를 한 줄로 정리하고, 다음 날 해설 없이 다시 풀어보세요.",
+    },
   ],
 } as const;

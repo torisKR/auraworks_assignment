@@ -36,7 +36,7 @@ export function CartContent({ items, onRemove }: CartContentProps) {
       <p className="cart-total">
         합계 <strong>{formatWon(total)}</strong>
       </p>
-      <p className="dialog-note">과제용 데모입니다. 실제 주문 및 결제는 제공하지 않습니다.</p>
+      <p className="dialog-note">주문·결제 기능은 준비 중입니다.</p>
     </div>
   );
 }

@@ -7,9 +7,9 @@ import { StoreDialog } from "@/components/store/store-dialog";
 import { CartContent } from "@/components/store/cart-content";
 import type { Textbook } from "@/types/database";
 
-type DemoUser = { name: string; email: string };
+type GuestUser = { name: string };
 type SiteContextValue = {
-  user: DemoUser | null;
+  user: GuestUser | null;
   signIn: () => void;
   signOut: () => void;
   addToCart: (textbook: Textbook) => void;
@@ -23,7 +23,7 @@ export function useSite() {
 }
 
 export function SiteShell({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<DemoUser | null>(null);
+  const [user, setUser] = useState<GuestUser | null>(null);
   const [cart, setCart] = useState<Textbook[]>([]);
   const [dialog, setDialog] = useState<"cart" | "notifications" | null>(null);
   const [announcement, setAnnouncement] = useState("");
@@ -38,7 +38,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
     <SiteContext.Provider
       value={{
         user,
-        signIn: () => setUser({ name: "히든 러너", email: "demo@hiddenkice.test" }),
+        signIn: () => setUser({ name: "히든 러너" }),
         signOut: () => setUser(null),
         addToCart,
       }}
@@ -71,7 +71,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           ) : (
             <div className="info-content">
               <p>2026 시즌7 교재가 업데이트되었습니다.</p>
-              <p className="dialog-note">과제용 예시 알림입니다.</p>
+              <p className="dialog-note">스토어에서 과목별 교재와 시즌 패스를 확인해 보세요.</p>
             </div>
           )}
         </StoreDialog>

@@ -6,10 +6,10 @@ export function GET() {
   const body = [
     `# ${siteName}`,
     "",
-    "> 제공 에셋의 디자인을 재현한 Next.js 과제용 데모입니다. 실제 히든카이스 공식 사이트나 판매 서비스가 아닙니다.",
+    "> 교재 탐색부터 답안 채점, 학습 챌린지까지. 히든카이스와 함께 나만의 학습 루틴을 만들어보세요.",
     "",
-    "교재는 Supabase의 더미 데이터이며 CSR로 조회합니다. 상세 목차와 후기는 예시입니다.",
-    "로그인·장바구니·챌린지는 브라우저 메모리의 임시 상태입니다. 실제 주문·결제·AI 분석은 제공하지 않습니다.",
+    "스토어에서 제목과 과목으로 교재를 검색하고, 패스·단품 구성을 비교할 수 있습니다.",
+    "게스트로 챌린지를 시작하고 연습 답안을 직접 입력해 채점할 수 있습니다. 게스트 상태는 새로고침하면 초기화됩니다. 주문·결제와 답안 사진 분석은 준비 중입니다.",
     "",
     "## 페이지",
     ...publicPages.map(
@@ -17,7 +17,7 @@ export function GET() {
     ),
     "",
     "## Optional",
-    `- [사이트 안내 Markdown](${absoluteUrl("/site-guide.md")}): 소개 페이지에 공개된 FAQ와 데모 범위의 텍스트 표현입니다.`,
+    `- [사이트 안내 Markdown](${absoluteUrl("/site-guide.md")}): 서비스 소개와 자주 묻는 질문의 텍스트 안내입니다.`,
     "",
   ].join("\n");
   return new Response(body, { headers: { "Content-Type": "text/plain; charset=utf-8" } });

@@ -1,8 +1,8 @@
 import { pageMetadata } from "@/lib/site";
 import { InformationPage } from "@/components/layout/information-page";
 export const metadata = pageMetadata(
-  "히든카이스 소개 · 과제용 데모",
-  "AuraWorks 과제용 사이트의 교재 조회, 더미 로그인, OMR 채점 및 챌린지 범위와 자주 묻는 질문을 안내합니다.",
+  "히든카이스 소개",
+  "좋은 문제에서 시작되는 변화. 교재부터 답안 채점과 학습 챌린지까지, 히든카이스의 학습 경험을 소개합니다.",
   "/about",
 );
 export default function Page() {

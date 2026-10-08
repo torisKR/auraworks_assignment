@@ -10,10 +10,7 @@ export function ChallengeBoard() {
   const [completed, setCompleted] = useState<string[]>([]);
   return (
     <>
-      <p className="demo-notice">
-        참여자 수와 챌린지는 예시 데이터입니다. 데모 로그인 후 참여할 수 있으며 새로고침하면 기록이
-        초기화됩니다.
-      </p>
+      <p className="muted">나에게 맞는 루틴을 선택하고 오늘의 학습 목표를 하나씩 완료해 보세요.</p>
       <div className="three-column challenge-grid">
         {challenges.map((challenge, index) => {
           const participating = joined.includes(challenge.id);
@@ -25,7 +22,7 @@ export function ChallengeBoard() {
               </div>
               <div className="challenge-body">
                 <p className="eyebrow">
-                  {challenge.duration} · {challenge.members + (participating ? 1 : 0)}명 참여
+                  {challenge.duration} · {challenge.tasks.length}개의 학습 목표
                 </p>
                 <h2>{challenge.title}</h2>
                 <p>{challenge.description}</p>
@@ -56,7 +53,8 @@ export function ChallengeBoard() {
                     </ul>
                     <p role="status" className="correct">
                       오늘의 목표{" "}
-                      {completed.filter((id) => id.startsWith(`${challenge.id}-`)).length} / 3 완료
+                      {completed.filter((id) => id.startsWith(`${challenge.id}-`)).length} /{" "}
+                      {challenge.tasks.length} 완료
                     </p>
                     <button
                       className="text-button"
@@ -79,7 +77,7 @@ export function ChallengeBoard() {
                   </button>
                 ) : (
                   <Link className="primary-button" href="/login">
-                    로그인하고 참여하기
+                    게스트로 시작하기
                   </Link>
                 )}
               </div>
@@ -87,6 +85,7 @@ export function ChallengeBoard() {
           );
         })}
       </div>
+      <p className="dialog-note">게스트 챌린지 기록은 화면을 떠나거나 새로고침하면 초기화됩니다.</p>
     </>
   );
 }

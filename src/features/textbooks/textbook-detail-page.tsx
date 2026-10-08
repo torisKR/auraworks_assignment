@@ -109,22 +109,21 @@ export function TextbookDetailPage({ id }: { id: string }) {
             </div>
             <div>
               <dt>배송</dt>
-              <dd>무료 배송 · 데모 안내</dd>
+              <dd>주문 서비스 준비 중</dd>
             </div>
           </dl>
           <button className="primary-button" onClick={() => addToCart(textbook)}>
             장바구니 담기
           </button>
           <p className="dialog-note">
-            교재 정보는 Supabase 조회 결과입니다. 상세 구성·후기는 예시이며 실제 주문·결제는
-            제공하지 않습니다.
+            필요한 교재를 장바구니에 모아보세요. 주문·결제 기능은 준비 중입니다.
           </p>
         </div>
       </section>
       <nav className="detail-tabs" aria-label="상세 정보">
         <a href="#description">교재 소개</a>
         <a href="#contents">목차</a>
-        <a href="#reviews">학습 후기</a>
+        <a href="#study-guide">학습 가이드</a>
         <a href="#delivery">배송 안내</a>
       </nav>
       <section id="description" className="detail-section">
@@ -142,34 +141,27 @@ export function TextbookDetailPage({ id }: { id: string }) {
       </section>
       <section id="contents" className="detail-section">
         <h2>교재 목차</h2>
-        <p className="muted">아래 목차는 상세 페이지 시연을 위한 예시입니다.</p>
+        <p className="muted">개념부터 실전 점검까지, 단계별로 학습을 이어가세요.</p>
         <ol className="chapter-list">
           {textbookDetail.chapters.map((chapter) => (
             <li key={chapter}>{chapter}</li>
           ))}
         </ol>
       </section>
-      <section id="reviews" className="detail-section">
-        <h2>
-          학습 후기 <span className="muted">2</span>
-        </h2>
-        <p className="muted">실제 구매자가 작성한 후기가 아닌 더미 데이터입니다.</p>
-        {textbookDetail.reviews.map((review) => (
-          <article className="review" key={review.name}>
-            <strong>{review.name}</strong>
-            <span aria-label={`5점 만점에 ${review.rating}점`} className="review-stars">
-              {"★".repeat(review.rating)}
-              {"☆".repeat(5 - review.rating)}
-            </span>
-            <p>{review.body}</p>
+      <section id="study-guide" className="detail-section">
+        <h2>교재 활용 가이드</h2>
+        {textbookDetail.studyNotes.map((note) => (
+          <article className="review" key={note.title}>
+            <strong>{note.title}</strong>
+            <p>{note.body}</p>
           </article>
         ))}
       </section>
       <section id="delivery" className="detail-section">
         <h2>배송 및 교환 안내</h2>
         <p>
-          무료 배송과 수령 후 7일 이내 교환 안내를 예시로 표시합니다. 실제 판매 조건이 아니며,
-          결제와 배송은 이루어지지 않습니다.
+          주문 서비스는 준비 중입니다. 배송 일정과 교환 기준은 주문 기능이 시작될 때 안내해
+          드립니다.
         </p>
       </section>
     </div>

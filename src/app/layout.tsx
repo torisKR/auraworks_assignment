@@ -6,7 +6,7 @@ import { serializeStructuredData } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  ...pageMetadata("히든카이스 교재 스토어 · 과제용 데모", siteDescription, "/"),
+  ...pageMetadata("히든카이스 교재 스토어", siteDescription, "/"),
 };
 
 export const viewport: Viewport = { themeColor: "#8274e8" };

@@ -11,7 +11,7 @@ export function InfoContent({ title }: { title: string }) {
     <div className="info-content">
       <p>
         {information[title] ??
-          "현재 교재 스토어 화면을 중심으로 제작된 과제용 데모입니다. 이 메뉴의 세부 기능은 준비 중입니다."}
+          "더 나은 학습 경험을 준비하고 있습니다. 새로운 소식은 이곳에서 안내해 드릴게요."}
       </p>
     </div>
   );
