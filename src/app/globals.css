@@ -682,8 +682,8 @@ svg {
 }
 .carousel-controls {
   position: absolute;
-  right: 5.4%;
-  bottom: 5%;
+  right: 3%;
+  bottom: 4%;
   display: flex;
   align-items: center;
   gap: 10px;

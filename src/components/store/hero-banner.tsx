@@ -8,30 +8,31 @@ import { heroSlides } from "@/data/hero-slides";
 export function HeroBanner() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [interacting, setInteracting] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
   const slide = heroSlides[index];
   function move(direction: number) {
     setIndex((current) => (current + direction + heroSlides.length) % heroSlides.length);
   }
 
   useEffect(() => {
-    if (!playing || interacting) return;
+    if (!playing || hovered || focused) return;
     const timer = window.setInterval(() => {
       if (!document.hidden) setIndex((current) => (current + 1) % heroSlides.length);
     }, 6000);
     return () => window.clearInterval(timer);
-  }, [playing, interacting]);
+  }, [playing, hovered, focused]);
 
   return (
     <section
       className="hero carousel"
       aria-label="히든카이스 추천 소식"
       aria-roledescription="캐러셀"
-      onMouseEnter={() => setInteracting(true)}
-      onMouseLeave={() => setInteracting(false)}
-      onFocusCapture={() => setInteracting(true)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocusCapture={() => setFocused(true)}
       onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setInteracting(false);
+        if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
       }}
       onKeyDown={(event) => {
         if (event.target !== event.currentTarget) return;
