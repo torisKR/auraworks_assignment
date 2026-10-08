@@ -47,14 +47,16 @@ export function SiteHeader({
           ))}
         </nav>
         <div className="header-actions">
-          <button
+          <Link
             className="icon-button"
-            aria-label={`장바구니, ${cartCount}개 상품`}
+            href="/cart"
+            aria-label={`장바구니, 교재 ${cartCount}권`}
+            aria-current={pathname === "/cart" ? "page" : undefined}
             onClick={onOpenCart}
           >
             <Icon name="cart" />
             {cartCount > 0 && <span className="notification-badge">{cartCount}</span>}
-          </button>
+          </Link>
           <button
             className="icon-button"
             aria-label={

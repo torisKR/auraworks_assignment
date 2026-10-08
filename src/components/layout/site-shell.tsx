@@ -4,7 +4,9 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import { SiteHeader } from "@/components/store/site-header";
 import { SiteFooter } from "@/components/store/site-footer";
 import { StoreDialog } from "@/components/store/store-dialog";
-import { CartContent } from "@/components/store/cart-content";
+import { CartContent } from "@/features/cart/cart-content";
+import { useCart } from "@/hooks/use-cart";
+import Link from "next/link";
 import { NotificationList } from "@/features/notifications/notification-list";
 import { useNotifications } from "@/hooks/use-notifications";
 import type { Textbook } from "@/types/database";
@@ -15,6 +17,7 @@ type SiteContextValue = {
   signIn: () => void;
   signOut: () => void;
   addToCart: (textbook: Textbook) => void;
+  cart: ReturnType<typeof useCart>;
 };
 const SiteContext = createContext<SiteContextValue | null>(null);
 
@@ -26,13 +29,14 @@ export function useSite() {
 
 export function SiteShell({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<GuestUser | null>(null);
-  const [cart, setCart] = useState<Textbook[]>([]);
+  const cart = useCart();
   const [dialog, setDialog] = useState<"cart" | "notifications" | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const { items: notifications, unreadCount, markAllAsRead } = useNotifications();
 
   function addToCart(textbook: Textbook) {
-    setCart((items) => [...items, textbook]);
+    cart.add(textbook.id);
+    cart.retry();
     setAnnouncement(`${textbook.subject} 교재를 장바구니에 담았습니다.`);
     setDialog("cart");
   }
@@ -44,15 +48,16 @@ export function SiteShell({ children }: { children: ReactNode }) {
         signIn: () => setUser({ name: "히든 러너" }),
         signOut: () => setUser(null),
         addToCart,
+        cart,
       }}
     >
       <a className="skip-link" href="#main-content">
         본문 바로가기
       </a>
       <SiteHeader
-        cartCount={cart.length}
+        cartCount={cart.count}
         unreadNotificationCount={unreadCount}
-        onOpenCart={() => setDialog("cart")}
+        onOpenCart={cart.retry}
         onOpenNotifications={() => {
           markAllAsRead();
           setDialog("notifications");
@@ -69,12 +74,16 @@ export function SiteShell({ children }: { children: ReactNode }) {
           onClose={() => setDialog(null)}
         >
           {dialog === "cart" ? (
-            <CartContent
-              items={cart}
-              onRemove={(index) =>
-                setCart((items) => items.filter((_, position) => position !== index))
-              }
-            />
+            <>
+              <CartContent onNavigate={() => setDialog(null)} />
+              <Link
+                href="/cart"
+                className="secondary-button cart-page-link"
+                onClick={() => setDialog(null)}
+              >
+                장바구니 페이지로 이동
+              </Link>
+            </>
           ) : (
             <NotificationList items={notifications} onNavigate={() => setDialog(null)} />
           )}
