@@ -6,6 +6,10 @@
 
 ## Vercel 프로젝트
 
+- 프로젝트: `auraworks-assignment`
+- Production URL: https://auraworks-assignment-seven.vercel.app
+- 2026-10-08: 커밋 `2095b1b`의 배포 Ready 및 실제 페이지의 Supabase REST HTTP 200 확인
+
 1. 로그인한 Vercel 계정에서 **Add New → Project**를 선택합니다.
 2. `torisKR/auraworks_assignment`를 Import합니다.
 3. Framework Preset은 **Next.js**, Root Directory는 저장소 루트로 설정합니다.
@@ -38,3 +42,5 @@ bash scripts/publish-from-bundle.sh
 ```
 
 스크립트는 bundle을 별도 임시 폴더로 clone하고 기존 GitHub 이력과 병합한 뒤 main을 push합니다. 기존 원격 README는 별도 문서로 보존합니다. 예상하지 않은 파일 충돌이 생기면 멈춥니다. 작업 중인 원본 폴더나 브라우저 세션을 지우지 않습니다.
+
+최초 게시 이후 원본 작업 폴더에서 미추적 파일 충돌로 pull이 거부된다면 `bash scripts/sync-checkout.sh`를 사용합니다. 소스를 백업한 뒤 커밋 없는 로컬 main에 원격 이력을 연결하고 pull·commit·push를 수행합니다. 이미 커밋이 있는 저장소에는 reset을 적용하지 않습니다.
